@@ -1,3 +1,12 @@
+local gamestate = require "hump.gamestate"
+local gamest = require "gamest"
+local testst = require "testst"
+
 function love.draw()
-	love.graphics.print("TODO: Game")
 end
+
+function love.load()
+	gamestate.registerEvents()
+	gamestate.switch(testst)
+end
+
