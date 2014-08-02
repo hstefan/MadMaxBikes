@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="runes" tilewidth="128" tileheight="128">
+  <image source="images/runes.png" width="512" height="512"/>
+ </tileset>
+ <tileset firstgid="17" name="guys" tilewidth="128" tileheight="128">
+  <tile id="0">
+   <image width="32" height="32" source="images/enemy.png"/>
+  </tile>
+  <tile id="1">
+   <image width="16" height="16" source="images/ground.png"/>
+  </tile>
+  <tile id="2">
+   <image width="128" height="128" source="images/john-the-placeholder.png"/>
+  </tile>
+  <tile id="3">
+   <image width="32" height="32" source="images/player.png"/>
+  </tile>
+ </tileset>
+ <objectgroup name="map_images">
+  <object gid="1" x="85" y="201"/>
+  <object gid="2" x="269" y="418"/>
+  <object gid="6" x="106" y="326"/>
+  <object gid="5" x="345" y="284"/>
+  <object gid="17" x="282" y="263"/>
+  <object gid="19" x="155" y="387"/>
+  <object gid="17" x="239" y="213"/>
+  <object gid="17" x="321" y="213"/>
+  <object gid="20" x="280" y="215"/>
+  <object gid="20" x="237" y="260"/>
+  <object gid="20" x="331" y="263"/>
+ </objectgroup>
+</map>

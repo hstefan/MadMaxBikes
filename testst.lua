@@ -1,8 +1,12 @@
+local level = require 'level'
+
 local testst = {}
 
 local ww, wh = love.graphics.getDimensions()
 
 function testst:init()
+	level:load_map('test_map.lua')
+
 	love.physics.setMeter(64)
 	self.world = love.physics.newWorld(0, 9.81 * 64, true)
 
@@ -19,6 +23,9 @@ function testst:init()
 end
 
 function testst:draw()
+	love.graphics.setColor(255, 255, 255)
+	level:draw_layer(level.layers['map_images'])
+
 	love.graphics.setColor(255, 120, 40)
 	love.graphics.polygon('fill', self.ground.body:getWorldPoints(self.ground.shape:getPoints()))
 	love.graphics.setColor(255, 255, 40)
