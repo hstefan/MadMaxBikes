@@ -67,6 +67,29 @@ function mod:draw_layer(layer)
 	end
 end
 
+function mod:load_world()
+	love.physics.setMeter(64)
+	self.world = love.physics.newWorld(0, 9.81 * 64, true)
+	self.physics_objects = {}
+	for k, v in pairs(self.physicsLayer.objects) do
+		if v.polygon ~= nil then
+			local i = #self.physics_objects + 1
+			self.physics_objects[i] = {}
+			self.physics_objects[i].body = love.physics.newBody(self.world, v.x, v.y, 'static')
+			
+			local flattenPolygon = {}
+			for _, vertex in pairs(v.polygon) do
+				flattenPolygon[#flattenPolygon + 1]  = vertex.x
+				flattenPolygon[#flattenPolygon + 1]  = vertex.y
+			end
+
+			self.physics_objects[i].shape = love.physics.newPolygonShape(unpack(flattenPolygon))
+			self.physics_objects[i].fixture = love.physics.newFixture(self.physics_objects[i].body,
+				self.physics_objects[i].shape)
+		end
+	end
+end
+
 function mod:load_map(map_name)
 	self.map = love.filesystem.load('data/' .. map_name)()
 	self.tiles = {}
@@ -76,6 +99,11 @@ function mod:load_map(map_name)
 	end
 	for i, layer in ipairs(self.map.layers) do
 		self.layers[layer.name] = layer
+	end
+
+	self.physicsLayer = self.layers['Physics']
+	if self.physicsLayer ~= nil then
+		self:load_world()
 	end
 end
 

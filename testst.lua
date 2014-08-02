@@ -2,41 +2,41 @@ local level = require 'level'
 
 local testst = {}
 
-local ww, wh = love.graphics.getDimensions()
+local win_w, win_h = love.graphics.getDimensions()
 
 function testst:init()
-	level:load_map('test_map.lua')
-
-	love.physics.setMeter(64)
-	self.world = love.physics.newWorld(0, 9.81 * 64, true)
-
-	self.ground = { }
-	self.ground.body = love.physics.newBody(self.world, ww/2, wh - 30, "static")
-	self.ground.shape = love.physics.newRectangleShape(ww, 60)
-	self.ground.fixture = love.physics.newFixture(self.ground.body, self.ground.shape)
-
+	level:load_map('map_placeholder.lua')
+	self.world = level.world
 	self.object = { }
-	self.object.body = love.physics.newBody(self.world, ww/2, 30, "dynamic")
+	self.object.body = love.physics.newBody(self.world, win_w/2, 30, "dynamic")
 	self.object.shape = love.physics.newRectangleShape(30, 60)
 	self.object.fixture = love.physics.newFixture(self.object.body, self.object.shape)
 	self.object.fixture:setRestitution(0.3)
 end
 
 function testst:draw()
-	love.graphics.setColor(255, 255, 255)
-	level:draw_layer(level.layers['map_images'])
+	scroll_x, scroll_y = self.object.body:getPosition()
+	scroll_x = scroll_x - win_w / 2
+	scroll_y = scroll_y - win_h / 2
+	love.graphics.origin()
+	love.graphics.translate(-scroll_x, -scroll_y)
 
-	love.graphics.setColor(255, 120, 40)
-	love.graphics.polygon('fill', self.ground.body:getWorldPoints(self.ground.shape:getPoints()))
 	love.graphics.setColor(255, 255, 40)
 	love.graphics.polygon('fill', self.object.body:getWorldPoints(self.object.shape:getPoints()))
+	love.graphics.setColor(255, 255, 255)
+	level:draw_layer(level.layers['Objects'])
 end
 
 function testst:update(dt)
 	self.world:update(dt)
-
+	if love.keyboard.isDown('left') then
+		self.object.body:applyLinearImpulse(-15, 0)
+	end
+	if love.keyboard.isDown('right') then
+		self.object.body:applyLinearImpulse(15, 0)
+	end
 	if love.keyboard.isDown('up') then
-		self.object.body:applyLinearImpulse(0, -60)
+		self.object.body:applyLinearImpulse(0, -10)
 	end
 end
 
