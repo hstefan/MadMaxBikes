@@ -15,6 +15,13 @@ function testst:init()
 end
 
 function testst:draw()
+	win_w, win_h = love.graphics.getDimensions()
+	scroll_x, scroll_y = self.object.body:getPosition()
+	scroll_x = scroll_x - win_w / 2
+	scroll_y = scroll_y - win_h / 2
+	love.graphics.origin()
+	love.graphics.translate(-scroll_x, -scroll_y)
+
 	love.graphics.setColor(255, 255, 40)
 	love.graphics.polygon('fill', self.object.body:getWorldPoints(self.object.shape:getPoints()))
 	love.graphics.setColor(255, 255, 255)
@@ -23,8 +30,14 @@ end
 
 function testst:update(dt)
 	self.world:update(dt)
+	if love.keyboard.isDown('left') then
+		self.object.body:applyLinearImpulse(-15, 0)
+	end
+	if love.keyboard.isDown('right') then
+		self.object.body:applyLinearImpulse(15, 0)
+	end
 	if love.keyboard.isDown('up') then
-		self.object.body:applyLinearImpulse(0, -60)
+		self.object.body:applyLinearImpulse(0, -10)
 	end
 end
 
