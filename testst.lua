@@ -17,15 +17,17 @@ function testst:create_player(p, x, y)
 	object.body = love.physics.newBody(level.world, x, y, "dynamic")
 	object.shape = love.physics.newCircleShape(30)
 	object.fixture = love.physics.newFixture(object.body, object.shape)
+	object.fixture:setFriction(40)
 	object.fixture:setRestitution(0.3)
 
 	function object:update(dt)
 		if love.keyboard.isDown(self.keys.left) then
-			self.body:applyForce(-300, 0)
+			self.body:applyTorque(-12000)
 		end
 		if love.keyboard.isDown(self.keys.right) then
-			self.body:applyForce(300, 0)
+			self.body:applyTorque(12000)
 		end
+
 		if love.keyboard.isDown(self.keys.up) then
 			self.body:applyForce(0, -300)
 			self.body:applyTorque(1000)
