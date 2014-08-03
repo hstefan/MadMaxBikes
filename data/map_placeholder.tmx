@@ -14,29 +14,6 @@
    <image width="64" height="64" source="bg_placeholder.png"/>
   </tile>
  </tileset>
- <layer name="Objects" width="25" height="19" visible="0">
-  <data encoding="csv">
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,2,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,
-1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,2,3,0,0,0,0,2,3,0,0,0,0,0,0,0,0,0,0,0,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0
-</data>
- </layer>
  <objectgroup name="Objects">
   <object gid="1" x="0" y="608"/>
   <object gid="1" x="64" y="608"/>
@@ -77,37 +54,69 @@
   <object gid="1" x="736" y="352"/>
   <object gid="2" x="224" y="448"/>
   <object gid="3" x="384" y="448"/>
-  <object gid="2" x="192" y="576"/>
+  <object gid="2" x="192" y="576">
+   <properties>
+    <property name="friction" value="0.95"/>
+   </properties>
+  </object>
   <object gid="2" x="384" y="576"/>
   <object gid="3" x="416" y="576"/>
-  <object gid="3" x="224" y="576"/>
+  <object gid="3" x="224" y="576">
+   <properties>
+    <property name="friction" value="0.95"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="Physics">
   <properties>
    <property name="collider" value=""/>
   </properties>
   <object x="384.468" y="575.27">
+   <properties>
+    <property name="friction" value="0.95"/>
+   </properties>
    <polygon points="0,0 31.5138,-15.0884 62.6456,0.763971"/>
   </object>
   <object x="383.514" y="431.835">
+   <properties>
+    <property name="friction" value="0.95"/>
+   </properties>
    <polygon points="0,0 0.190993,16.2344 32.8508,16.2344"/>
   </object>
   <object x="255.739" y="430.498">
+   <properties>
+    <property name="friction" value="0.95"/>
+   </properties>
    <polygon points="0,0 -0.190993,17.7623 -37.4346,17.9533"/>
   </object>
   <object x="191.757" y="575.652">
+   <properties>
+    <property name="friction" value="0.1"/>
+   </properties>
    <polygon points="0,0 64.3646,0.190993 32.2778,-16.2344"/>
   </object>
   <object x="0" y="448">
+   <properties>
+    <property name="friction" value="0.95"/>
+   </properties>
    <polygon points="0,0 256,0 256,32 0,32"/>
   </object>
   <object x="384" y="448">
+   <properties>
+    <property name="friction" value="0.95"/>
+   </properties>
    <polygon points="0,0 0,32 416,32 416,0"/>
   </object>
   <object x="800" y="576">
+   <properties>
+    <property name="friction" value="0.95"/>
+   </properties>
    <polygon points="0,0 0,32 -800,32 -800,0"/>
   </object>
   <object x="800" y="320">
+   <properties>
+    <property name="friction" value="0.95"/>
+   </properties>
    <polygon points="0,0 0,32 -800,32 -800,0"/>
   </object>
  </objectgroup>
