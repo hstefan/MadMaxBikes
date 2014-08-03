@@ -116,6 +116,7 @@ function testst:init()
 	self.p2 = self:create_player(2, level.width/3*2, 30)
 	console.active = false
 	self.music = love.audio.newSource("data/desert_grease.mp3")
+	self.music:setLooping(true)
 	self.music:play()
 end
 
