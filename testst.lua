@@ -115,6 +115,8 @@ function testst:init()
 	self.p1 = self:create_player(1, level.width/3, 30)
 	self.p2 = self:create_player(2, level.width/3*2, 30)
 	console.active = false
+	self.music = love.audio.newSource("data/desert_grease.mp3")
+	self.music:play()
 end
 
 function testst:draw()
