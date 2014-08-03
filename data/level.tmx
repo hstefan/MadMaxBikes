@@ -40,12 +40,6 @@
   <object x="1740" y="828">
    <polygon points="0,0 -8,-84 694,-270 898,-466 898,-502 828,-612 746,-812 940,-814 938,-320 810,-234 660,-176"/>
   </object>
-  <object x="0" y="2016">
-   <polygon points="0,0 0,-1792 32,-1792"/>
-  </object>
-  <object x="2668.72" y="1968.76">
-   <polygon points="0,0 17.3544,-5.78481 17.3544,-1685.31 1.92827,-1679.52"/>
-  </object>
  </objectgroup>
  <objectgroup name="PowerUps">
   <object gid="1" x="2456" y="1096"/>
