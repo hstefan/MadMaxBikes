@@ -107,8 +107,9 @@ end
 function testst:init()
 	level:load_map('level.lua')
 	self:load_background()
-	self.p1 = self:create_player(1, win_w/3, 30)
-	self.p2 = self:create_player(2, win_w/3*2, 30)
+	self.p1 = self:create_player(1, level.width/3, 30)
+	self.p2 = self:create_player(2, level.width/3*2, 30)
+	console.active = false
 end
 
 function testst:draw()
