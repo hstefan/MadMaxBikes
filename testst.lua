@@ -21,13 +21,14 @@ function testst:create_player(p, x, y)
 
 	function object:update(dt)
 		if love.keyboard.isDown(self.keys.left) then
-			self.body:applyLinearImpulse(-15, 0)
+			self.body:applyForce(-300, 0)
 		end
 		if love.keyboard.isDown(self.keys.right) then
-			self.body:applyLinearImpulse(15, 0)
+			self.body:applyForce(300, 0)
 		end
 		if love.keyboard.isDown(self.keys.up) then
-			self.body:applyLinearImpulse(0, -10)
+			self.body:applyForce(0, -300)
+			self.body:applyTorque(1000)
 		end
 	end
 
