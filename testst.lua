@@ -78,19 +78,23 @@ function testst:create_player(p, x, y)
 	object.shape = love.physics.newCircleShape(32)
 	object.fixture = love.physics.newFixture(object.body, object.shape)
 	object.fixture:setFriction(40)
-	object.fixture:setRestitution(0.3)
+	object.fixture:setRestitution(0.2)
+	object.fixture:setGroupIndex(-1)
 	object.bikeImage = love.graphics.newImage(object.spr_name)
 	
 	object.pilotBody = love.physics.newBody(level.world, x, y, "dynamic")
+	object.pilotBody:setAngularDamping(7.5)
 	object.pilotImage = love.graphics.newImage("data/images/chuchu-pilot.png")
 	object.pilotFixture = love.physics.newFixture(object.pilotBody, object.shape)
 	object.pilotFixture:setFriction(0.01)
 
-	--object.spearBody = love.physics.newBody(level.world, x + 48, y, "dynamic")
-	--object.spearImage = love.graphics.newImage("data/images/item-spear-long.png")
-	--object.spearShape = love.physics.newRectangleShape(0, 0, object.spearImage:getWidth(), object.spearImage:getHeight())
-	--object.spearFixture = love.physics.newFixture(object.spearBody, object.spearShape)
-	--object.spearJoint = love.physics.newWheelJoint(object.pilotBody, object.spearBody, x, y, x + 48, y, false)
+	object.spearBody = love.physics.newBody(level.world, x + 48, y, "dynamic")
+	object.spearImage = love.graphics.newImage("data/images/item-spear-long.png")
+	object.spearShape = love.physics.newRectangleShape(0, 0, object.spearImage:getWidth(), object.spearImage:getHeight())
+	object.spearFixture = love.physics.newFixture(object.spearBody, object.spearShape)
+	object.spearFixture:setGroupIndex(-1)
+	object.spearFixture:setMask(2)
+	object.spearJoint = love.physics.newWeldJoint(object.pilotBody, object.spearBody, x, y, false)
 	object.joint = love.physics.newRevoluteJoint(object.body, object.pilotBody, x, y, false)
 	
 	function object:update(dt)
@@ -106,7 +110,17 @@ function testst:create_player(p, x, y)
 			self.body:applyTorque(1000)
 		end
 
-		if self:pilotBody:getAngle() then
+		local angle = self.pilotBody:getAngle()
+		local velx, vely = self.pilotBody:getLinearVelocity()
+		if velx < 0 then
+			angle = angle - math.pi
+		end
+
+		if angle > math.rad(0.5) then
+			self.pilotBody:applyTorque(-7500 * angle)
+		end
+		if angle < math.rad(-0.5) then
+			self.pilotBody:applyTorque(-7500 * angle)
 		end
 	end
 
@@ -117,8 +131,8 @@ function testst:create_player(p, x, y)
 			b.bikeImage:getWidth()/2, b.bikeImage:getHeight()/2)
 		love.graphics.draw(b.pilotImage, b.body:getX(), b.body:getY(), b.pilotBody:getAngle(), 1, 1,
 			b.pilotImage:getWidth()/2, b.pilotImage:getHeight()/2)
-		--love.graphics.draw(b.spearImage, b.spearBody:getX(), b.spearBody:getY(), b.spearBody:getAngle(), 1, 1,
-		--	b.spearImage:getWidth()/2, b.spearImage:getHeight()/2)--
+		love.graphics.draw(b.spearImage, b.spearBody:getX(), b.spearBody:getY(), b.spearBody:getAngle(), 1, 1,
+			b.spearImage:getWidth()/2, b.spearImage:getHeight()/2)--
 	end
 
 	function object:setPowerup(id)

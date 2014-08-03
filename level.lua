@@ -101,6 +101,7 @@ function mod:load_world()
 				self.physics_objects[i].shape = love.physics.newPolygonShape(unpack(tri))
 				self.physics_objects[i].fixture = love.physics.newFixture(self.physics_objects[i].body,
 					self.physics_objects[i].shape)
+				self.physics_objects[i].fixture:setCategory(2)
 				if v.properties ~= nil then
 					for prop, val in pairs(v.properties) do
 						if prop == "friction" then
