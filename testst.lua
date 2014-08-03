@@ -9,23 +9,49 @@ function testst:load_background()
 	self.bgs = {}
 	for i = 1, 4 do
 		self.bgs[i] = love.graphics.newImage('data/backgrounds/bg' .. i .. '.png')
-		self.bgs[i]:setWrap('repeat', 'clamp')
 	end
 end
 
-function testst:draw_background(scroll_x, scale_x)
-	local rates = { 0, 0.33, 0.66, 1 }
+function unlerp(x, min_x, max_x)
+	if min_x == max_x then
+		return 0
+	end
+	return (x - min_x) / (max_x - min_x)
+end
 
-	local distance_to_left = (0 + (win_w/2)) / scale_x - scroll_x
-	local distance_to_right = (win_w + (win_w/2)) / scale_x - scroll_x
+function lerp(t, min_x, max_x)
+	return (1-t)*min_x + t*max_x
+end
+
+function clamp(t, min, max)
+	if t < min then
+		t = min
+	end
+	if t > max then
+		t = max
+	end
+	return t
+end
+
+function testst:draw_background(scroll_x, scroll_y)
+	local lvl_w = level.width
+	local lvl_h = level.height
+
+	local scroll_tx = unlerp(scroll_x, win_w/2, lvl_w - win_w/2)
+	local scroll_ty = unlerp(scroll_y, win_h/2, lvl_h - win_h/2)
+	scroll_tx = clamp(scroll_tx, 0, 1)
+	scroll_ty = clamp(scroll_ty, 0, 1)
+
+	console:log(scroll_tx)
+
 	for i, bg in ipairs(self.bgs) do
-		local img_w = bg:getWidth()
-		local bg_x = scroll_x * (1 - rates[i])
-		local repeat_fixup = math.ceil((distance_to_left + bg_x) / img_w) * img_w
+		local bg_w = bg:getWidth()
+		local bg_h = bg:getHeight()
 
-		local num_repeats = math.ceil((distance_to_right - distance_to_left) / img_w) + 1
-		local quad = love.graphics.newQuad(0, 0, img_w * num_repeats, bg:getHeight(), img_w, bg:getHeight())
-		love.graphics.draw(bg, quad, bg_x - repeat_fixup, 0)
+		local bg_x = lerp(scroll_tx, 0, bg_w - win_w)
+		local bg_y = lerp(scroll_ty, 0, bg_h - win_h)
+
+		love.graphics.draw(bg, -bg_x, 0)
 	end
 end
 
@@ -76,21 +102,51 @@ function testst:init()
 end
 
 function testst:draw()
+	local border = 384
+
+	function limit_x(x)
+		return clamp(x, win_w/2, level.width - win_w/2)
+	end
+	function limit_y(y)
+		return clamp(y, win_h/2, level.height - win_h/2)
+	end
+
 	local p1_x, p1_y = self.p1.body:getPosition()
 	local p2_x, p2_y = self.p2.body:getPosition()
-	local scroll_x = (p1_x + p2_x) / 2
-	local scroll_y = (p1_y + p2_y) / 2
-	local dist_x = (math.abs(p1_x - p2_x)) * 1.25
-	local dist_y = (math.abs(p1_y - p2_y)) * 1.25
-	local distance = math.max(dist_x, dist_y, 384) / math.min(win_w, win_h)
-	local scale = 1 / distance
+
+	local center_x = (p1_x + p2_x) / 2
+	local dist_x = math.abs(p1_x - p2_x)
+	local center_y = (p1_y + p2_y) / 2
+	local dist_y = math.abs(p1_y - p2_y)
+
+	local scale_x = win_w / dist_x
+	local scale_y = win_h / dist_y
+	local min_scale_x = win_w / level.width
+	local min_scale_y = win_h / level.height
+	local scale = math.max(math.min(scale_x, scale_y), min_scale_x, min_scale_y)
+	dist_x = win_w / scale
+	dist_y = win_h / scale
+
+	if center_x - dist_x/2 < 0 then
+		center_x = dist_x/2
+	end
+	if center_y - dist_y/2 < 0 then
+		center_y = dist_y/2
+	end
+	if center_x + dist_x/2 > level.width then
+		center_x = level.width - dist_x/2
+	end
+	if center_y + dist_y/2 > level.height then
+		center_y = level.height - dist_y/2
+	end
+
+	self:draw_background(center_x, center_y, scale)
 
 	love.graphics.origin()
 	love.graphics.translate(win_w / 2, win_h / 2)
 	love.graphics.scale(scale)
-	love.graphics.translate(-scroll_x, -scroll_y)
+	love.graphics.translate(-center_x, -center_y)
 
-	self:draw_background(scroll_x, scale)
 	self.p1:draw()
 	self.p2:draw()
 	love.graphics.setColor(255, 255, 255)

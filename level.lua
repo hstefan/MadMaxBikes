@@ -103,6 +103,8 @@ end
 
 function mod:load_map(map_name)
 	self.map = love.filesystem.load('data/' .. map_name)()
+	self.width = self.map.width * self.map.tilewidth
+	self.height = self.map.height * self.map.tileheight
 	self.tiles = {}
 	self.layers = {}
 	for i, tileset in ipairs(self.map.tilesets) do
