@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="85" height="30" tilewidth="32" tileheight="32">
+ <objectgroup name="Objects"/>
+ <imagelayer name="rst">
+  <image source="backgrounds/bg4.png"/>
+ </imagelayer>
+ <objectgroup name="Physics">
+  <object x="1575.17" y="296.528" rotation="-1.35572">
+   <polygon points="-16.6793,424.564 369.974,420.015 630.778,410.917 847.609,353.298 985.592,227.445 1043.21,139.5 1094.77,51.5542 1114.48,-125.853 1117.51,429.113"/>
+  </object>
+  <object x="0" y="960">
+   <polygon points="0,0 0,-224 2720,-256 2720,0"/>
+  </object>
+  <object x="32" y="320" rotation="-1.35572">
+   <polygon points="1117.51,424.564 730.857,420.015 470.053,410.917 253.222,353.298 115.239,227.445 57.6194,139.5 6.0652,51.5542 -13.6467,-125.853 -16.6793,429.113"/>
+  </object>
+  <object x="0" y="960">
+   <polygon points="0,0 0,-1184 10.6141,-1185.93 15.163,-0.181956"/>
+  </object>
+  <object x="0" y="32">
+   <polygon points="0,0 0,-1184 10.6141,-1185.93 15.163,-0.181956"/>
+  </object>
+  <object x="2688" y="960">
+   <polygon points="0,0 0,-1184 10.6141,-1185.93 15.163,-0.181956"/>
+  </object>
+ </objectgroup>
+</map>
