@@ -131,6 +131,41 @@ return {
             { x = 42, y = 14 }
           },
           properties = {}
+        },
+        {
+          name = "",
+          type = "",
+          shape = "polygon",
+          x = 0,
+          y = 2016,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          polygon = {
+            { x = 0, y = 0 },
+            { x = 0, y = -1792 },
+            { x = 32, y = -1792 }
+          },
+          properties = {}
+        },
+        {
+          name = "",
+          type = "",
+          shape = "polygon",
+          x = 2668.72,
+          y = 1968.76,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          polygon = {
+            { x = 0, y = 0 },
+            { x = 17.3544, y = -5.78481 },
+            { x = 17.3544, y = -1685.31 },
+            { x = 1.92827, y = -1679.52 }
+          },
+          properties = {}
         }
       }
     },

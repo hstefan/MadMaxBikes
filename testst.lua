@@ -1,5 +1,7 @@
 local level = require 'level'
 local powerup = require 'powerup_ctrl'
+local vector = require 'hump.vector'
+
 require 'util.console'
 
 local testst = {}
@@ -74,23 +76,38 @@ function testst:create_player(p, x, y)
 		object.spr_name = "data/images/chuchu-bike-2.png"
 	end
 	object.body = love.physics.newBody(level.world, x, y, "dynamic")
-	object.shape = love.physics.newCircleShape(30)
+	object.shape = love.physics.newCircleShape(32)
 	object.fixture = love.physics.newFixture(object.body, object.shape)
 	object.fixture:setFriction(40)
 	object.fixture:setRestitution(0.3)
 	object.bikeImage = love.graphics.newImage(object.spr_name)
+	
+	object.pilotBody = love.physics.newBody(level.world, x, y, "dynamic")
+	object.pilotImage = love.graphics.newImage("data/images/chuchu-pilot.png")
+	object.pilotFixture = love.physics.newFixture(object.pilotBody, object.shape)
+	object.pilotFixture:setFriction(0.01)
 
+	--object.spearBody = love.physics.newBody(level.world, x + 48, y, "dynamic")
+	--object.spearImage = love.graphics.newImage("data/images/item-spear-long.png")
+	--object.spearShape = love.physics.newRectangleShape(0, 0, object.spearImage:getWidth(), object.spearImage:getHeight())
+	--object.spearFixture = love.physics.newFixture(object.spearBody, object.spearShape)
+	--object.spearJoint = love.physics.newWheelJoint(object.pilotBody, object.spearBody, x, y, x + 48, y, false)
+	object.joint = love.physics.newRevoluteJoint(object.body, object.pilotBody, x, y, false)
+	
 	function object:update(dt)
 		if love.keyboard.isDown(self.keys.left) then
-			self.body:applyTorque(-12000)
+			self.body:applyTorque(-24000)
 		end
 		if love.keyboard.isDown(self.keys.right) then
-			self.body:applyTorque(12000)
+			self.body:applyTorque(24000)
 		end
 
 		if love.keyboard.isDown(self.keys.up) then
 			self.body:applyForce(0, -300)
 			self.body:applyTorque(1000)
+		end
+
+		if self:pilotBody:getAngle() then
 		end
 	end
 
@@ -99,6 +116,10 @@ function testst:create_player(p, x, y)
 		local b = object
 		love.graphics.draw(b.bikeImage, b.body:getX(), b.body:getY(), b.body:getAngle(), 1, 1,
 			b.bikeImage:getWidth()/2, b.bikeImage:getHeight()/2)
+		love.graphics.draw(b.pilotImage, b.body:getX(), b.body:getY(), b.pilotBody:getAngle(), 1, 1,
+			b.pilotImage:getWidth()/2, b.pilotImage:getHeight()/2)
+		--love.graphics.draw(b.spearImage, b.spearBody:getX(), b.spearBody:getY(), b.spearBody:getAngle(), 1, 1,
+		--	b.spearImage:getWidth()/2, b.spearImage:getHeight()/2)--
 	end
 
 	function object:setPowerup(id)
