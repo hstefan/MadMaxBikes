@@ -1,4 +1,5 @@
 local level = require 'level'
+local powerup = require 'powerup_ctrl'
 require 'util.console'
 
 local testst = {}
@@ -96,9 +97,10 @@ function testst:create_player(p, x, y)
 	function object:draw()
 		love.graphics.setColor(255, 255, 255)
 		local b = object
-		love.graphics.draw(b.bikeImage, b.body:getX(), b.body:getY(), b.body:getAngle(),  1, 1, b.bikeImage:getWidth()/2, b.bikeImage:getHeight()/2)
+		love.graphics.draw(b.bikeImage, b.body:getX(), b.body:getY(), b.body:getAngle(), 1, 1,
+			b.bikeImage:getWidth()/2, b.bikeImage:getHeight()/2)
 	end
-
+	object.fixture:setUserData({ isPlayer = true, o = object })
 	return object
 end
 
@@ -163,13 +165,15 @@ function testst:draw()
 	self.p2:draw()
 	love.graphics.setColor(255, 255, 255)
 	level:draw_layer(level.layers['Objects'])
-
+	
+	powerup:draw()
 	love.graphics.origin()
 	console:draw()
 end
 
 function testst:update(dt)
 	level.world:update(dt)
+	powerup:update(dt)
 	self.p1:update(dt)
 	self.p2:update(dt)
 end

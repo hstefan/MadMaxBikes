@@ -67,9 +67,21 @@ function mod:draw_layer(layer)
 	end
 end
 
+function beginContact(a, b, coll)
+	local ad = a:getUserData()
+	local bd = b:getUserData()
+	if ad ~= nil and ad.contact ~= nil then
+		ad:contact(b, coll)
+	end
+	if bd ~= nil and bd.contact ~= nil then
+		bd:contact(a, coll)
+	end
+end
+
 function mod:load_world()
 	love.physics.setMeter(64)
 	self.world = love.physics.newWorld(0, 9.81 * 64, true)
+	self.world:setCallbacks(beginContact, nil, nil, nil)
 	self.physics_objects = {}
 	for k, v in pairs(self.physicsLayer.objects) do
 		if v.polygon ~= nil then
@@ -101,6 +113,13 @@ function mod:load_world()
 	end
 end
 
+function mod:load_powerups()
+	self.powerupSpawns = {}
+	for k, v in pairs(self.powerUpsLayer.objects) do
+		self.powerupSpawns[#self.powerupSpawns + 1 ] = { x = v.x, y = v.y }
+	end
+end
+
 function mod:load_map(map_name)
 	self.map = love.filesystem.load('data/' .. map_name)()
 	self.width = self.map.width * self.map.tilewidth
@@ -117,6 +136,11 @@ function mod:load_map(map_name)
 	self.physicsLayer = self.layers['Physics']
 	if self.physicsLayer ~= nil then
 		self:load_world()
+	end
+
+	self.powerUpsLayer = self.layers['PowerUps']
+	if self.powerUpsLayer ~= nil then
+		self:load_powerups()	
 	end
 end
 

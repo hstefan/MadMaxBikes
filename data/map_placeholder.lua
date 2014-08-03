@@ -56,6 +56,12 @@ return {
           image = "images/loop-ramp-right.png",
           width = 128,
           height = 320
+        },
+        {
+          id = 6,
+          image = "images/powerup-spawn.png",
+          width = 32,
+          height = 32
         }
       }
     }
@@ -1306,6 +1312,93 @@ return {
             { x = 1600, y = 32 },
             { x = 1600, y = 0 }
           },
+          properties = {}
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      name = "PowerUps",
+      visible = true,
+      opacity = 1,
+      properties = {},
+      objects = {
+        {
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 640,
+          y = 192,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          gid = 7,
+          visible = true,
+          properties = {}
+        },
+        {
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 608,
+          y = 448,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          gid = 7,
+          visible = true,
+          properties = {}
+        },
+        {
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 64,
+          y = 160,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          gid = 7,
+          visible = true,
+          properties = {}
+        },
+        {
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 1472,
+          y = 160,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          gid = 7,
+          visible = true,
+          properties = {}
+        },
+        {
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 800,
+          y = 192,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          gid = 7,
+          visible = true,
+          properties = {}
+        },
+        {
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 832,
+          y = 448,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          gid = 7,
+          visible = true,
           properties = {}
         }
       }
