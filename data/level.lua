@@ -28,33 +28,6 @@ return {
           height = 32
         }
       }
-    },
-    {
-      name = "terrain",
-      firstgid = 2,
-      tilewidth = 1220,
-      tileheight = 1087,
-      spacing = 0,
-      margin = 0,
-      tileoffset = {
-        x = 0,
-        y = 0
-      },
-      properties = {},
-      tiles = {
-        {
-          id = 0,
-          image = "mid-platform.png",
-          width = 1220,
-          height = 353
-        },
-        {
-          id = 1,
-          image = "mid-tower.png",
-          width = 1003,
-          height = 1087
-        }
-      }
     }
   },
   layers = {
