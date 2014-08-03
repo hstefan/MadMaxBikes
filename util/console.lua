@@ -79,7 +79,7 @@ function console:draw()
 			love.graphics.setColor(255, 255, 255)
 		end
 		
-		love.graphics.print(level .. key .. " : " .. message, finalPos.x + self.padding, finalPos.y)
+		love.graphics.print(level .. message, finalPos.x + self.padding, finalPos.y)
 		
 		finalPos.y = finalPos.y + LINE_HEIGHT
 	end
