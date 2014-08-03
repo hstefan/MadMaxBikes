@@ -1,4 +1,5 @@
 local level = require 'level'
+require 'util.console'
 
 local testst = {}
 
@@ -61,6 +62,9 @@ function testst:draw()
 	self.p2:draw()
 	love.graphics.setColor(255, 255, 255)
 	level:draw_layer(level.layers['Objects'])
+
+	love.graphics.origin()
+	console:draw()
 end
 
 function testst:update(dt)
