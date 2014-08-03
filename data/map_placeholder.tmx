@@ -119,5 +119,11 @@
    </properties>
    <polygon points="0,0 0,32 -800,32 -800,0"/>
   </object>
+  <object x="0" y="160">
+   <polygon points="0,0 0,160 32,160 32,0"/>
+  </object>
+  <object x="768" y="160">
+   <polygon points="0,0 0,160 32,160 32,0"/>
+  </object>
  </objectgroup>
 </map>

@@ -785,6 +785,42 @@ return {
           properties = {
             ["friction"] = "0.95"
           }
+        },
+        {
+          name = "",
+          type = "",
+          shape = "polygon",
+          x = 0,
+          y = 160,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          polygon = {
+            { x = 0, y = 0 },
+            { x = 0, y = 160 },
+            { x = 32, y = 160 },
+            { x = 32, y = 0 }
+          },
+          properties = {}
+        },
+        {
+          name = "",
+          type = "",
+          shape = "polygon",
+          x = 768,
+          y = 160,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          polygon = {
+            { x = 0, y = 0 },
+            { x = 0, y = 160 },
+            { x = 32, y = 160 },
+            { x = 32, y = 0 }
+          },
+          properties = {}
         }
       }
     }
