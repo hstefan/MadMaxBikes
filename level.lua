@@ -1,3 +1,5 @@
+require 'util.console'
+
 local mod = {}
 
 function mod:load_tileset(tileset)

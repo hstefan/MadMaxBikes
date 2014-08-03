@@ -23,7 +23,7 @@ function mod:get_powerup_spawn()
 end
 
 function mod:rand_powerup()
-	local p = {}
+	local p = { objtype = "powerup" }
 
 	local pos = self:get_powerup_spawn()
 	if pos == nil then
@@ -58,8 +58,8 @@ function mod:rand_powerup()
 
 	function p:contact(other, coll)
 		local od = other:getUserData()
-		if od ~= nil and od.isPlayer then
-			od.o:setPowerup(self.id)
+		if od ~= nil and od.objtype == 'player' then
+			od:setPowerup(self.id)
 			self.joint:destroy()
 			self.fixture:setUserData(nil)
 			self.timetodie = 1

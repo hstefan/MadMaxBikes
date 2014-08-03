@@ -66,7 +66,7 @@ function testst:draw_background(i, cam_left, cam_right, cam_top, cam_bottom)
 end
 
 function testst:create_player(p, x, y)
-	local object = {}
+	local object = { objtype = "player", invincibility_timer = 0 }
 	if p == 1 then
 		object.keys = { left = 'left', right = 'right', up = 'up' }
 		object.spr_name = "data/images/chuchu-bike-1.png"
@@ -79,7 +79,7 @@ function testst:create_player(p, x, y)
 	object.fixture = love.physics.newFixture(object.body, object.shape)
 	object.fixture:setFriction(40)
 	object.fixture:setRestitution(0.2)
-	object.fixture:setGroupIndex(-1)
+	object.fixture:setGroupIndex(-p)
 	object.bikeImage = love.graphics.newImage(object.spr_name)
 	
 	object.pilotBody = love.physics.newBody(level.world, x, y, "dynamic")
@@ -88,12 +88,15 @@ function testst:create_player(p, x, y)
 	object.pilotFixture = love.physics.newFixture(object.pilotBody, object.shape)
 	object.pilotFixture:setFriction(0.01)
 
+	object.spear = { objtype = "spear", parent = object }
+
 	object.spearBody = love.physics.newBody(level.world, x + 48, y, "dynamic")
 	object.spearImage = love.graphics.newImage("data/images/item-spear-long.png")
 	object.spearShape = love.physics.newRectangleShape(0, 0, object.spearImage:getWidth(), object.spearImage:getHeight())
 	object.spearFixture = love.physics.newFixture(object.spearBody, object.spearShape)
-	object.spearFixture:setGroupIndex(-1)
+	object.spearFixture:setGroupIndex(-p)
 	object.spearFixture:setMask(2)
+	object.spearFixture:setUserData(object.spear)
 	object.spearJoint = love.physics.newWeldJoint(object.pilotBody, object.spearBody, x, y, false)
 	object.joint = love.physics.newRevoluteJoint(object.body, object.pilotBody, x, y, false)
 	
@@ -122,10 +125,18 @@ function testst:create_player(p, x, y)
 		if angle < math.rad(-0.5) then
 			self.pilotBody:applyTorque(-7500 * angle)
 		end
+
+		if self.invincibility_timer > 0 then
+			self.invincibility_timer = math.max(0, self.invincibility_timer - dt)
+		end
 	end
 
 	function object:draw()
-		love.graphics.setColor(255, 255, 255)
+		if self.invincibility_timer <= 0 then
+			love.graphics.setColor(255, 255, 255)
+		else
+			love.graphics.setColor(255, 0, 0)
+		end
 		local b = object
 		love.graphics.draw(b.bikeImage, b.body:getX(), b.body:getY(), b.body:getAngle(), 1, 1,
 			b.bikeImage:getWidth()/2, b.bikeImage:getHeight()/2)
@@ -139,7 +150,17 @@ function testst:create_player(p, x, y)
 		self.powerup = id
 	end
 
-	object.fixture:setUserData({ isPlayer = true, o = object })
+	function object:contact(o, coll)
+		local od = o:getUserData()
+		if od ~= nil and od.objtype == 'spear' then
+			if self.invincibility_timer <= 0 and od.parent.invincibility_timer <= 0 then
+				console:log("P" .. p .. " says: AI MEU RIM")
+				self.invincibility_timer = 3
+			end
+		end
+	end
+
+	object.fixture:setUserData(object)
 	return object
 end
 
