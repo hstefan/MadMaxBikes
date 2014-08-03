@@ -32,17 +32,18 @@ end
 function testst:create_player(p, x, y)
 	local object = {}
 	if p == 1 then
-		object.color = { 255, 255, 40 }
 		object.keys = { left = 'left', right = 'right', up = 'up' }
+		object.spr_name = "data/images/chuchu-bike-1.png"
 	else
-		object.color = { 255, 40, 255 }
 		object.keys = { left = 'a', right = 's', up = 'w' }
+		object.spr_name = "data/images/chuchu-bike-2.png"
 	end
 	object.body = love.physics.newBody(level.world, x, y, "dynamic")
 	object.shape = love.physics.newCircleShape(30)
 	object.fixture = love.physics.newFixture(object.body, object.shape)
 	object.fixture:setFriction(40)
 	object.fixture:setRestitution(0.3)
+	object.bikeImage = love.graphics.newImage(object.spr_name)
 
 	function object:update(dt)
 		if love.keyboard.isDown(self.keys.left) then
@@ -59,8 +60,9 @@ function testst:create_player(p, x, y)
 	end
 
 	function object:draw()
-		love.graphics.setColor(self.color)
-		love.graphics.circle('fill', self.body:getX(), self.body:getY(), self.shape:getRadius())
+		love.graphics.setColor(255, 255, 255)
+		local b = object
+		love.graphics.draw(b.bikeImage, b.body:getX(), b.body:getY(), b.body:getAngle(),  1, 1, b.bikeImage:getWidth()/2, b.bikeImage:getHeight()/2)
 	end
 
 	return object
