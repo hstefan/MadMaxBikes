@@ -15,7 +15,7 @@ function testst:create_player(p, x, y)
 		object.keys = { left = 'a', right = 's', up = 'w' }
 	end
 	object.body = love.physics.newBody(level.world, x, y, "dynamic")
-	object.shape = love.physics.newRectangleShape(30, 60)
+	object.shape = love.physics.newCircleShape(30)
 	object.fixture = love.physics.newFixture(object.body, object.shape)
 	object.fixture:setRestitution(0.3)
 
@@ -34,7 +34,7 @@ function testst:create_player(p, x, y)
 
 	function object:draw()
 		love.graphics.setColor(self.color)
-		love.graphics.polygon('fill', self.body:getWorldPoints(self.shape:getPoints()))
+		love.graphics.circle('fill', self.body:getX(), self.body:getY(), self.shape:getRadius())
 	end
 
 	return object
