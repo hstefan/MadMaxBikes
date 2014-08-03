@@ -7,7 +7,29 @@ return {
   tilewidth = 32,
   tileheight = 32,
   properties = {},
-  tilesets = {},
+  tilesets = {
+    {
+      name = "powerup",
+      firstgid = 1,
+      tilewidth = 32,
+      tileheight = 32,
+      spacing = 0,
+      margin = 0,
+      tileoffset = {
+        x = 0,
+        y = 0
+      },
+      properties = {},
+      tiles = {
+        {
+          id = 0,
+          image = "images/powerup-spawn.png",
+          width = 32,
+          height = 32
+        }
+      }
+    }
+  },
   layers = {
     {
       type = "imagelayer",
@@ -68,6 +90,106 @@ return {
             { x = -26, y = 778 },
             { x = -38, y = 24 }
           },
+          properties = {}
+        },
+        {
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 2232,
+          y = 1180,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          gid = 1,
+          visible = true,
+          properties = {}
+        },
+        {
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 956,
+          y = 1214,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          gid = 1,
+          visible = true,
+          properties = {}
+        },
+        {
+          name = "",
+          type = "",
+          shape = "polygon",
+          x = 324,
+          y = 1340,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          polygon = {
+            { x = 0, y = 0 },
+            { x = 114, y = -46 },
+            { x = 274, y = -60 },
+            { x = 394, y = -92 },
+            { x = 688, y = -80 },
+            { x = 756, y = -60 },
+            { x = 868, y = -66 },
+            { x = 960, y = -104 },
+            { x = 1120, y = -120 },
+            { x = 1248, y = -152 },
+            { x = 1532, y = -138 },
+            { x = 1592, y = -116 },
+            { x = 1664, y = -128 },
+            { x = 1693, y = -118.5 },
+            { x = 1702, y = -93 },
+            { x = 1580, y = -88 },
+            { x = 1282, y = -118 },
+            { x = 1128, y = -74 },
+            { x = 972, y = -68 },
+            { x = 864, y = -26 },
+            { x = 720, y = -26 },
+            { x = 448, y = -62 },
+            { x = 290, y = -4 },
+            { x = 134, y = -8 },
+            { x = 42, y = 14 }
+          },
+          properties = {}
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      name = "PowerUps",
+      visible = true,
+      opacity = 1,
+      properties = {},
+      objects = {
+        {
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 2486,
+          y = 1240,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          gid = 1,
+          visible = true,
+          properties = {}
+        },
+        {
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 232,
+          y = 1222,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          gid = 1,
+          visible = true,
           properties = {}
         }
       }

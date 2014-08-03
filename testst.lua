@@ -159,7 +159,6 @@ function testst:draw()
 	love.graphics.translate(-center_x, -center_y)
 
 	self:draw_background(center_x - dist_x/2, center_x + dist_x/2, center_y - dist_y/2, center_y + dist_y/2)
-	console:log("center_y: " .. center_y)
 
 	self.p1:draw()
 	self.p2:draw()
