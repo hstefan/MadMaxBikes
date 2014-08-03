@@ -631,7 +631,7 @@ return {
       },
       objects = {
         {
-          name = "",
+          name = "dhnvdhhl",
           type = "",
           shape = "polygon",
           x = 384.468,
@@ -790,7 +790,7 @@ return {
           name = "",
           type = "",
           shape = "polygon",
-          x = 0,
+          x = 768,
           y = 160,
           width = 0,
           height = 0,
@@ -808,17 +808,22 @@ return {
           name = "",
           type = "",
           shape = "polygon",
-          x = 768,
-          y = 160,
+          x = 127.06,
+          y = 319.492,
           width = 0,
           height = 0,
           rotation = 0,
           visible = true,
           polygon = {
             { x = 0, y = 0 },
-            { x = 0, y = 160 },
-            { x = 32, y = 160 },
-            { x = 32, y = 0 }
+            { x = -59.8472, y = -19.3352 },
+            { x = -90.2311, y = -38.6705 },
+            { x = -103.121, y = -65.3715 },
+            { x = -105.883, y = -92.9933 },
+            { x = -107.265, y = -137.648 },
+            { x = -91.1518, y = -191.511 },
+            { x = -124.758, y = -191.051 },
+            { x = -126.139, y = -0.920726 }
           },
           properties = {}
         }

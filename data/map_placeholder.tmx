@@ -71,7 +71,7 @@
   <properties>
    <property name="collider" value=""/>
   </properties>
-  <object x="384.468" y="575.27">
+  <object name="dhnvdhhl" x="384.468" y="575.27">
    <properties>
     <property name="friction" value="0.95"/>
    </properties>
@@ -119,11 +119,11 @@
    </properties>
    <polygon points="0,0 0,32 -800,32 -800,0"/>
   </object>
-  <object x="0" y="160">
-   <polygon points="0,0 0,160 32,160 32,0"/>
-  </object>
   <object x="768" y="160">
    <polygon points="0,0 0,160 32,160 32,0"/>
+  </object>
+  <object x="127.06" y="319.492">
+   <polygon points="0,0 -59.8472,-19.3352 -90.2311,-38.6705 -103.121,-65.3715 -105.883,-92.9933 -107.265,-137.648 -91.1518,-191.511 -124.758,-191.051 -126.139,-0.920726"/>
   </object>
  </objectgroup>
 </map>
