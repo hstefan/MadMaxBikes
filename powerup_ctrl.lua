@@ -6,10 +6,31 @@ local tacc = 0
 local ids = { 'shield-passive', 'shield-aggresive', 'spear-long', 'spear-short' }
 local spawnedPowerups = { }
 
+function mod:get_powerup_spawn()
+	local choices = {}
+	for k, v in pairs(level.powerupSpawns) do
+		if not v.occupied then
+			table.insert(choices, v)
+		end
+	end
+
+	if table.getn(choices) > 0 then
+		local i = math.random(table.getn(choices))
+		return choices[i]
+	else
+		return nil
+	end
+end
+
 function mod:rand_powerup()
 	local p = {}
 
-	local pos = level.powerupSpawns[math.random(1, #level.powerupSpawns)]
+	local pos = self:get_powerup_spawn()
+	if pos == nil then
+		return
+	end
+
+	pos.occupied = true
 	p.base = love.physics.newBody(level.world, pos.x, pos.y - 50, "kinematic")
 	p.body = love.physics.newBody(level.world, pos.x, pos.y, "dynamic")
 	p.shape = love.physics.newCircleShape(16)
@@ -21,6 +42,7 @@ function mod:rand_powerup()
 	function p:update(dt)
 		if self.timetodie ~= nil then
 			if self.timetodie <= 0 then
+				pos.occupied = false
 				self.base:destroy()
 				self.body:destroy()
 				spawnedPowerups[self.index] = spawnedPowerups[#spawnedPowerups]
@@ -54,9 +76,12 @@ end
 function mod:update(dt)
 	tacc = tacc + dt
 	if tacc > tspawn then
-		spawnedPowerups[#spawnedPowerups + 1] = self:rand_powerup()
-		spawnedPowerups[#spawnedPowerups].index = #spawnedPowerups
-		tacc = 0
+		local powerup = self:rand_powerup()
+		if powerup ~= nil then
+			spawnedPowerups[#spawnedPowerups + 1] = powerup
+			spawnedPowerups[#spawnedPowerups].index = #spawnedPowerups
+		end
+		tacc = tacc - tspawn
 	end
 	for _, v in ipairs(spawnedPowerups) do
 		v:update(dt)
