@@ -34,7 +34,7 @@ function clamp(t, min, max)
 	return t
 end
 
-function testst:draw_background(cam_left, cam_right, cam_top, cam_bottom)
+function testst:draw_background(i, cam_left, cam_right, cam_top, cam_bottom)
 	local lvl_w = level.width
 	local lvl_h = level.height
 
@@ -45,23 +45,22 @@ function testst:draw_background(cam_left, cam_right, cam_top, cam_bottom)
 	local xt = unlerp((cam_left + cam_right)/2, cam_w/2, lvl_w - cam_w/2)
 	local yt = unlerp((cam_top + cam_bottom)/2, cam_h/2, lvl_h - cam_h/2)
 
-	for i, bg in ipairs(self.bgs) do
-		local bg_w = bg:getWidth()
-		local bg_h = bg:getHeight()
+	local bg = self.bgs[i]
+	local bg_w = bg:getWidth()
+	local bg_h = bg:getHeight()
 
-		local scroll_factor_x = unlerp(bg_w, win_w, lvl_w)
-		local scroll_factor_y = unlerp(bg_h, win_h, lvl_h)
-		-- in level units
-		local edge_w = lerp(scroll_factor_x, cam_w/2, lvl_w/2)
-		local edge_h = lerp(scroll_factor_y, cam_h/2, lvl_h/2)
+	local scroll_factor_x = unlerp(bg_w, win_w, lvl_w)
+	local scroll_factor_y = unlerp(bg_h, win_h, lvl_h)
+	-- in level units
+	local edge_w = lerp(scroll_factor_x, cam_w/2, lvl_w/2)
+	local edge_h = lerp(scroll_factor_y, cam_h/2, lvl_h/2)
 
-		-- in level units
-		local local_pos_x = lerp(xt, 0, lvl_w - edge_w*2)
-		local local_pos_y = lerp(yt, 0, lvl_h - edge_h*2)
+	-- in level units
+	local local_pos_x = lerp(xt, 0, lvl_w - edge_w*2)
+	local local_pos_y = lerp(yt, 0, lvl_h - edge_h*2)
 
-		local scale = (edge_w*2)/bg_w
-		love.graphics.draw(bg, local_pos_x, local_pos_y, 0, scale)
-	end
+	local scale = (edge_w*2)/bg_w
+	love.graphics.draw(bg, local_pos_x, local_pos_y, 0, scale)
 end
 
 function testst:create_player(p, x, y)
@@ -152,9 +151,9 @@ function testst:draw()
 	if center_x - dist_x/2 < 0 then
 		center_x = dist_x/2
 	end
-	--if center_y - dist_y/2 < 0 then
-	--	center_y = dist_y/2
-	--end
+	if center_y - dist_y/2 < 0 then
+		center_y = dist_y/2
+	end
 	if center_x + dist_x/2 > level.width then
 		center_x = level.width - dist_x/2
 	end
@@ -167,14 +166,26 @@ function testst:draw()
 	love.graphics.scale(scale)
 	love.graphics.translate(-center_x, -center_y)
 
-	self:draw_background(center_x - dist_x/2, center_x + dist_x/2, center_y - dist_y/2, center_y + dist_y/2)
+	function draw_bg(bg_i)
+		self:draw_background(bg_i, center_x - dist_x/2, center_x + dist_x/2, center_y - dist_y/2, center_y + dist_y/2)
+	end
 
+	draw_bg(1)
+	draw_bg(2)
+	draw_bg(3)
+
+	love.graphics.setColor(255, 255, 255)
+	level:draw_layer(level.layers['BgObjects'])
+
+	draw_bg(4)
+	
 	self.p1:draw()
 	self.p2:draw()
+	powerup:draw()
+
 	love.graphics.setColor(255, 255, 255)
 	level:draw_layer(level.layers['Objects'])
-	
-	powerup:draw()
+
 	love.graphics.origin()
 	console:draw()
 end
