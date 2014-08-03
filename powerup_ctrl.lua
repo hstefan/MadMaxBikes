@@ -38,6 +38,7 @@ function mod:rand_powerup()
 	p.fixture = love.physics.newFixture(p.body, p.shape)
 	p.fixture:setRestitution(1)
 	p.image = love.graphics.newImage('data/images/powerup-' .. ids[math.random(1, #ids)] .. '.png')
+	p.body:setMass(0.01)
 	
 	function p:update(dt)
 		if self.timetodie ~= nil then
