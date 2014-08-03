@@ -86,6 +86,13 @@ function mod:load_world()
 			self.physics_objects[i].shape = love.physics.newPolygonShape(unpack(flattenPolygon))
 			self.physics_objects[i].fixture = love.physics.newFixture(self.physics_objects[i].body,
 				self.physics_objects[i].shape)
+			if v.properties ~= nil then
+				for prop, val in pairs(v.properties) do
+					if prop == "friction" then
+						self.physics_objects[i].fixture:setFriction(tonumber(val))
+					end
+				end
+			end
 		end
 	end
 end
