@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="84" height="63" tilewidth="32" tileheight="32">
+ <imagelayer name="Image Layer 1">
+  <image source="backgrounds/bg4.png"/>
+ </imagelayer>
+ <objectgroup name="Objects"/>
+ <objectgroup name="Physics">
+  <object x="50" y="1186">
+   <polygon points="0,0 92,88 50,186 56,240 160,264 290,334 534,480 688,548 924,626 1252,676 1366,666 1524,684 1886,702 2093.88,696.875 2229.75,655.75 2369.5,591.5 2573,375 2572,300 2524.75,98.25 2621.5,86.5 2615,779 1884,784 -26,778 -38,24"/>
+  </object>
+ </objectgroup>
+</map>

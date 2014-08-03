@@ -33,25 +33,33 @@ function clamp(t, min, max)
 	return t
 end
 
-function testst:draw_background(scroll_x, scroll_y)
+function testst:draw_background(cam_left, cam_right, cam_top, cam_bottom)
 	local lvl_w = level.width
 	local lvl_h = level.height
 
-	local scroll_tx = unlerp(scroll_x, win_w/2, lvl_w - win_w/2)
-	local scroll_ty = unlerp(scroll_y, win_h/2, lvl_h - win_h/2)
-	scroll_tx = clamp(scroll_tx, 0, 1)
-	scroll_ty = clamp(scroll_ty, 0, 1)
+	-- in world units
+	local cam_w = cam_right - cam_left
+	local cam_h = cam_bottom - cam_top
 
-	console:log(scroll_tx)
+	local xt = unlerp((cam_left + cam_right)/2, cam_w/2, lvl_w - cam_w/2)
+	local yt = unlerp((cam_top + cam_bottom)/2, cam_h/2, lvl_h - cam_h/2)
 
 	for i, bg in ipairs(self.bgs) do
 		local bg_w = bg:getWidth()
 		local bg_h = bg:getHeight()
 
-		local bg_x = lerp(scroll_tx, 0, bg_w - win_w)
-		local bg_y = lerp(scroll_ty, 0, bg_h - win_h)
+		local scroll_factor_x = unlerp(bg_w, win_w, lvl_w)
+		local scroll_factor_y = unlerp(bg_h, win_h, lvl_h)
+		-- in level units
+		local edge_w = lerp(scroll_factor_x, cam_w/2, lvl_w/2)
+		local edge_h = lerp(scroll_factor_y, cam_h/2, lvl_h/2)
 
-		love.graphics.draw(bg, -bg_x, 0)
+		-- in level units
+		local local_pos_x = lerp(xt, 0, lvl_w - edge_w*2)
+		local local_pos_y = lerp(yt, 0, lvl_h - edge_h*2)
+
+		local scale = (edge_w*2)/bg_w
+		love.graphics.draw(bg, local_pos_x, local_pos_y, 0, scale)
 	end
 end
 
@@ -95,7 +103,7 @@ function testst:create_player(p, x, y)
 end
 
 function testst:init()
-	level:load_map('map_placeholder.lua')
+	level:load_map('level.lua')
 	self:load_background()
 	self.p1 = self:create_player(1, win_w/3, 30)
 	self.p2 = self:create_player(2, win_w/3*2, 30)
@@ -105,34 +113,37 @@ function testst:draw()
 	local border = 384
 
 	function limit_x(x)
-		return clamp(x, win_w/2, level.width - win_w/2)
+		return clamp(x, 0, level.width)
 	end
 	function limit_y(y)
-		return clamp(y, win_h/2, level.height - win_h/2)
+		return clamp(y, -1024, level.height)
 	end
 
 	local p1_x, p1_y = self.p1.body:getPosition()
 	local p2_x, p2_y = self.p2.body:getPosition()
+	p1_x = limit_x(p1_x); p1_y = limit_y(p1_y)
+	p2_x = limit_x(p2_x); p2_y = limit_y(p2_y)
 
 	local center_x = (p1_x + p2_x) / 2
-	local dist_x = math.abs(p1_x - p2_x)
+	local dist_x = math.abs(p1_x - p2_x) + border
 	local center_y = (p1_y + p2_y) / 2
-	local dist_y = math.abs(p1_y - p2_y)
+	local dist_y = math.abs(p1_y - p2_y) + border
 
 	local scale_x = win_w / dist_x
 	local scale_y = win_h / dist_y
 	local min_scale_x = win_w / level.width
 	local min_scale_y = win_h / level.height
-	local scale = math.max(math.min(scale_x, scale_y), min_scale_x, min_scale_y)
+	local scale = math.max(math.min(scale_x, scale_y), min_scale_x)
+	scale = math.min(2, scale)
 	dist_x = win_w / scale
 	dist_y = win_h / scale
 
 	if center_x - dist_x/2 < 0 then
 		center_x = dist_x/2
 	end
-	if center_y - dist_y/2 < 0 then
-		center_y = dist_y/2
-	end
+	--if center_y - dist_y/2 < 0 then
+	--	center_y = dist_y/2
+	--end
 	if center_x + dist_x/2 > level.width then
 		center_x = level.width - dist_x/2
 	end
@@ -140,12 +151,13 @@ function testst:draw()
 		center_y = level.height - dist_y/2
 	end
 
-	self:draw_background(center_x, center_y, scale)
-
 	love.graphics.origin()
 	love.graphics.translate(win_w / 2, win_h / 2)
 	love.graphics.scale(scale)
 	love.graphics.translate(-center_x, -center_y)
+
+	self:draw_background(center_x - dist_x/2, center_x + dist_x/2, center_y - dist_y/2, center_y + dist_y/2)
+	console:log("center_y: " .. center_y)
 
 	self.p1:draw()
 	self.p2:draw()
