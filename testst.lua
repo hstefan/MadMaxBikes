@@ -100,6 +100,11 @@ function testst:create_player(p, x, y)
 		love.graphics.draw(b.bikeImage, b.body:getX(), b.body:getY(), b.body:getAngle(), 1, 1,
 			b.bikeImage:getWidth()/2, b.bikeImage:getHeight()/2)
 	end
+
+	function object:setPowerup(id)
+		self.powerup = id
+	end
+
 	object.fixture:setUserData({ isPlayer = true, o = object })
 	return object
 end

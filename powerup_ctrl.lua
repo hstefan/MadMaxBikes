@@ -37,7 +37,8 @@ function mod:rand_powerup()
 	p.joint = love.physics.newDistanceJoint(p.body, p.base, p.body:getX(), p.body:getY(), p.base:getX(), p.base:getY(), false)
 	p.fixture = love.physics.newFixture(p.body, p.shape)
 	p.fixture:setRestitution(1)
-	p.image = love.graphics.newImage('data/images/powerup-' .. ids[math.random(1, #ids)] .. '.png')
+	p.id = ids[math.random(1, #ids)]
+	p.image = love.graphics.newImage('data/images/powerup-' .. p.id .. '.png')
 	p.body:setMass(0.01)
 	
 	function p:update(dt)
@@ -58,6 +59,7 @@ function mod:rand_powerup()
 	function p:contact(other, coll)
 		local od = other:getUserData()
 		if od ~= nil and od.isPlayer then
+			od.o:setPowerup(self.id)
 			self.joint:destroy()
 			self.fixture:setUserData(nil)
 			self.timetodie = 1
