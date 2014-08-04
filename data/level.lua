@@ -80,7 +80,7 @@ return {
             { x = 86, y = 254 },
             { x = 160, y = 264 },
             { x = 290, y = 334 },
-            { x = 534, y = 480 },
+            { x = 502, y = 438 },
             { x = 688, y = 548 },
             { x = 924, y = 626 },
             { x = 1196, y = 636 },
@@ -272,6 +272,42 @@ return {
             { x = 660, y = -176 }
           },
           properties = {}
+        },
+        {
+          name = "",
+          type = "",
+          shape = "polygon",
+          x = 1608,
+          y = 1572,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          polygon = {
+            { x = 10, y = 0 },
+            { x = 16, y = -24 },
+            { x = 324, y = -28 },
+            { x = 328, y = -14 }
+          },
+          properties = {}
+        },
+        {
+          name = "",
+          type = "",
+          shape = "polygon",
+          x = 696,
+          y = 1594,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          polygon = {
+            { x = 184, y = -54 },
+            { x = 462, y = -52 },
+            { x = 468, y = -34 },
+            { x = 198, y = -38 }
+          },
+          properties = {}
         }
       }
     },
@@ -325,8 +361,8 @@ return {
           name = "",
           type = "",
           shape = "rectangle",
-          x = 1696,
-          y = 1666,
+          x = 1730,
+          y = 1514,
           width = 0,
           height = 0,
           rotation = 0,
@@ -351,8 +387,34 @@ return {
           name = "",
           type = "",
           shape = "rectangle",
-          x = 1186,
-          y = 1662,
+          x = 1008,
+          y = 1500,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          gid = 1,
+          visible = true,
+          properties = {}
+        },
+        {
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 1342,
+          y = 934,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          gid = 1,
+          visible = true,
+          properties = {}
+        },
+        {
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 1400,
+          y = 1726,
           width = 0,
           height = 0,
           rotation = 0,
