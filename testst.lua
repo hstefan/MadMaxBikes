@@ -172,8 +172,8 @@ function testst:init()
 	self.music = love.audio.newSource("data/desert_grease.mp3")
 	self.music:setLooping(true)
 	self.music:play()
-
 	self.time_start = love.timer.getTime()
+	self.font = love.graphics.setNewFont("data/slkscre.ttf", 24)
 end
 
 function testst:draw()
@@ -242,22 +242,23 @@ function testst:draw()
 
 	love.graphics.setColor(255, 255, 255)
 	level:draw_layer(level.layers['Objects'])
-
+	
 	love.graphics.origin()
 	love.graphics.setColor(255, 255, 255)
+	love.graphics.setFont(self.font)
 	if self.remaining_time > 0 then
-		love.graphics.print("P1 Score: " .. self.p1.score, 8, 8, 0, 1.5, 1.5)
-		love.graphics.print("P2 Score: " .. self.p2.score, 8, 24, 0, 1.5, 1.5)
+		love.graphics.print("P1 Score: " .. self.p1.score, 8, 8, 0, 1, 1)
+		love.graphics.print("P2 Score: " .. self.p2.score, 8, 34, 0, 1, 1)
 		local remaining_minutes = math.floor(self.remaining_time / 60)
 		local remaining_seconds = math.floor(self.remaining_time % 60)
-		love.graphics.print("Time Left: " .. remaining_minutes .. ":" .. remaining_seconds, 8, 40, 0, 2, 2)
+		love.graphics.print("Time Left: " .. remaining_minutes .. ":" .. remaining_seconds, 8, 60, 0, 1, 1)
 	else
 		local font = love.graphics:getFont()
-		local x, y = center_text(font, "GAME_OVER", 5, win_w/2, win_h/2)
-		love.graphics.print("GAME OVER", x, y, 0, 5, 5)
+		local x, y = center_text(font, "GAME_OVER", 1, win_w/2, win_h/2)
+		love.graphics.print("GAME OVER", x, y, 0, 1, 1)
 		local str = "P1 " .. self.p1.score .. " x " .. self.p2.score .. " P2"
-		local x, y = center_text(font, str, 3, win_w/2, win_h/2 + 48)
-		love.graphics.print(str, x, y, 0, 3, 3)
+		local x, y = center_text(font, str, 1, win_w/2, win_h/2 + 48)
+		love.graphics.print(str, x, y, 0, 1, 1)
 	end
 
 	console:draw()
