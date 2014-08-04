@@ -7,7 +7,7 @@ require 'util.console'
 local testst = {}
 
 local win_w, win_h = love.graphics.getDimensions()
-local time_limit = 15
+local time_limit = 240
 
 function testst:load_background()
 	self.bgs = {}
@@ -71,9 +71,11 @@ function testst:create_player(p, x, y)
 	if p == 1 then
 		object.keys = { left = 'left', right = 'right', up = 'up' }
 		object.spr_name = "data/images/wheel.png"
+		object.color = { 255, 127, 127 }
 	else
 		object.keys = { left = 'a', right = 's', up = 'w' }
 		object.spr_name = "data/images/wheel.png"
+		object.color = { 127, 127, 255 }
 	end
 	object.body = love.physics.newBody(level.world, x, y, "dynamic")
 	object.shape = love.physics.newCircleShape(32)
@@ -131,7 +133,7 @@ function testst:create_player(p, x, y)
 
 	function object:draw()
 		if self.invincibility_timer <= 0 then
-			love.graphics.setColor(255, 255, 255)
+			love.graphics.setColor(self.color)
 		else
 			love.graphics.setColor(255, 0, 0)
 		end
