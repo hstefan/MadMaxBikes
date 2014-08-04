@@ -7,6 +7,7 @@ require 'util.console'
 local testst = {}
 
 local win_w, win_h = love.graphics.getDimensions()
+local time_limit = 15
 
 function testst:load_background()
 	self.bgs = {}
@@ -143,6 +144,7 @@ function testst:create_player(p, x, y)
 
 	function object:setPowerup(id)
 		self.powerup = id
+		self.score = self.score + 1
 	end
 
 	function object:contact(o, coll)
@@ -168,6 +170,8 @@ function testst:init()
 	self.music = love.audio.newSource("data/desert_grease.mp3")
 	self.music:setLooping(true)
 	self.music:play()
+
+	self.time_start = love.timer.getTime()
 end
 
 function testst:draw()
@@ -221,11 +225,11 @@ function testst:draw()
 		self:draw_background(bg_i, center_x - dist_x/2, center_x + dist_x/2, center_y - dist_y/2, center_y + dist_y/2)
 	end
 
+	love.graphics.setColor(255, 255, 255)
 	draw_bg(1)
 	draw_bg(2)
 	draw_bg(3)
 
-	love.graphics.setColor(255, 255, 255)
 	level:draw_layer(level.layers['BgObjects'])
 
 	draw_bg(4)
@@ -238,14 +242,39 @@ function testst:draw()
 	level:draw_layer(level.layers['Objects'])
 
 	love.graphics.origin()
+	love.graphics.setColor(255, 255, 255)
+	if self.remaining_time > 0 then
+		love.graphics.print("P1 Score: " .. self.p1.score, 8, 8, 0, 1.5, 1.5)
+		love.graphics.print("P2 Score: " .. self.p2.score, 8, 24, 0, 1.5, 1.5)
+		local remaining_minutes = math.floor(self.remaining_time / 60)
+		local remaining_seconds = math.floor(self.remaining_time % 60)
+		love.graphics.print("Time Left: " .. remaining_minutes .. ":" .. remaining_seconds, 8, 40, 0, 2, 2)
+	else
+		local font = love.graphics:getFont()
+		local x, y = center_text(font, "GAME_OVER", 5, win_w/2, win_h/2)
+		love.graphics.print("GAME OVER", x, y, 0, 5, 5)
+		local str = "P1 " .. self.p1.score .. " x " .. self.p2.score .. " P2"
+		local x, y = center_text(font, str, 3, win_w/2, win_h/2 + 48)
+		love.graphics.print(str, x, y, 0, 3, 3)
+	end
+
 	console:draw()
 end
 
+function center_text(font, str, scale, x, y)
+	return x - font:getWidth(str) * scale / 2, y - font:getHeight(str) * scale / 2
+end
+
 function testst:update(dt)
-	level.world:update(dt)
-	powerup:update(dt)
-	self.p1:update(dt)
-	self.p2:update(dt)
+	local elapsed_time = love.timer.getTime() - self.time_start
+	self.remaining_time = time_limit - elapsed_time
+
+	if self.remaining_time > 0 then
+		level.world:update(dt)
+		powerup:update(dt)
+		self.p1:update(dt)
+		self.p2:update(dt)
+	end
 end
 
 return testst

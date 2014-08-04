@@ -127,6 +127,7 @@ function mod:load_powerups()
 end
 
 function mod:load_map(map_name)
+	math.randomseed(os.time())
 	self.map = love.filesystem.load('data/' .. map_name)()
 	self.width = self.map.width * self.map.tilewidth
 	self.height = self.map.height * self.map.tileheight
