@@ -7,11 +7,21 @@ local ids = { 'shield-passive', 'shield-aggresive', 'spear-long', 'spear-short' 
 local spawnedPowerups = { }
 
 function mod:get_powerup_spawn()
+	--[[
 	local choices = {}
 	for k, v in pairs(level.powerupSpawns) do
 		if not v.occupied then
 			table.insert(choices, v)
 		end
+	end
+	--]]
+
+	local choices = level.powerupSpawns
+
+	if level.initialSpawn ~= nil then
+		local i = level.initialSpawn
+		level.initialSpawn = nil
+		return choices[i]
 	end
 
 	if table.getn(choices) > 0 then
@@ -22,7 +32,7 @@ function mod:get_powerup_spawn()
 	end
 end
 
-function mod:rand_powerup()
+function mod:create_powerup()
 	local p = { objtype = "powerup" }
 
 	local pos = self:get_powerup_spawn()
@@ -50,6 +60,8 @@ function mod:rand_powerup()
 				spawnedPowerups[self.index] = spawnedPowerups[#spawnedPowerups]
 				spawnedPowerups[self.index].index = self.index
 				spawnedPowerups[#spawnedPowerups] = nil
+
+				mod:create_powerup()
 			else
 				self.timetodie = self.timetodie - dt
 			end
@@ -73,18 +85,23 @@ function mod:rand_powerup()
 	end
 	
 	p.fixture:setUserData(p)
+
+	spawnedPowerups[#spawnedPowerups + 1] = p
+	spawnedPowerups[#spawnedPowerups].index = #spawnedPowerups
+
 	return p
 end
 
 function mod:update(dt)
+	--[[
 	tacc = tacc + dt
 	if tacc > tspawn then
-		local powerup = self:rand_powerup()
-		if powerup ~= nil then
-			spawnedPowerups[#spawnedPowerups + 1] = powerup
-			spawnedPowerups[#spawnedPowerups].index = #spawnedPowerups
-		end
+		local powerup = self:create_powerup()
 		tacc = tacc - tspawn
+	end
+	--]]
+	if level.initialSpawn ~= nil then
+		mod:create_powerup()
 	end
 	for _, v in ipairs(spawnedPowerups) do
 		v:update(dt)

@@ -120,6 +120,9 @@ function mod:load_powerups()
 	self.powerupSpawns = {}
 	for k, v in pairs(self.powerUpsLayer.objects) do
 		self.powerupSpawns[#self.powerupSpawns + 1 ] = { x = v.x, y = v.y, occupied = false }
+		if v.properties.initial_spawn then
+			self.initialSpawn = #self.powerupSpawns
+		end
 	end
 end
 

@@ -36,9 +36,13 @@
  <objectgroup name="PowerUps">
   <object gid="1" x="2456" y="1096"/>
   <object gid="1" x="206" y="1222"/>
-  <object gid="1" x="934" y="616"/>
-  <object gid="1" x="1714" y="1582"/>
-  <object gid="1" x="1744" y="612"/>
-  <object gid="1" x="1168" y="1592"/>
+  <object gid="1" x="164" y="334"/>
+  <object gid="1" x="1696" y="1666"/>
+  <object gid="1" x="2500" y="350"/>
+  <object gid="1" x="1186" y="1662">
+   <properties>
+    <property name="initial_spawn" value="1"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

@@ -66,7 +66,7 @@ function testst:draw_background(i, cam_left, cam_right, cam_top, cam_bottom)
 end
 
 function testst:create_player(p, x, y)
-	local object = { objtype = "player", invincibility_timer = 0 }
+	local object = { objtype = "player", invincibility_timer = 0, score = 0 }
 	if p == 1 then
 		object.keys = { left = 'left', right = 'right', up = 'up' }
 		object.spr_name = "data/images/chuchu-bike-1.png"

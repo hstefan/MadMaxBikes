@@ -312,8 +312,8 @@ return {
           name = "",
           type = "",
           shape = "rectangle",
-          x = 934,
-          y = 616,
+          x = 164,
+          y = 334,
           width = 0,
           height = 0,
           rotation = 0,
@@ -325,8 +325,8 @@ return {
           name = "",
           type = "",
           shape = "rectangle",
-          x = 1714,
-          y = 1582,
+          x = 1696,
+          y = 1666,
           width = 0,
           height = 0,
           rotation = 0,
@@ -338,8 +338,8 @@ return {
           name = "",
           type = "",
           shape = "rectangle",
-          x = 1744,
-          y = 612,
+          x = 2500,
+          y = 350,
           width = 0,
           height = 0,
           rotation = 0,
@@ -351,14 +351,16 @@ return {
           name = "",
           type = "",
           shape = "rectangle",
-          x = 1168,
-          y = 1592,
+          x = 1186,
+          y = 1662,
           width = 0,
           height = 0,
           rotation = 0,
           gid = 1,
           visible = true,
-          properties = {}
+          properties = {
+            ["initial_spawn"] = "1"
+          }
         }
       }
     }
