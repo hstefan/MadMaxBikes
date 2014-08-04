@@ -99,7 +99,8 @@ function testst:create_player(p, x, y)
 	object.spearFixture:setUserData(object.spear)
 	object.spearJoint = love.physics.newWeldJoint(object.pilotBody, object.spearBody, x, y, false)
 	object.joint = love.physics.newRevoluteJoint(object.body, object.pilotBody, x, y, false)
-	
+	object.jumpcd = 0
+
 	function object:update(dt)
 		if love.keyboard.isDown(self.keys.left) then
 			self.body:applyTorque(-24000)
@@ -108,9 +109,12 @@ function testst:create_player(p, x, y)
 			self.body:applyTorque(24000)
 		end
 
-		if love.keyboard.isDown(self.keys.up) then
-			self.body:applyForce(0, -300)
+		if love.keyboard.isDown(self.keys.up) and self.jumpcd <= 0 then
+			self.jumpcd = 1.5
+			self.body:applyLinearImpulse(0, -650)
 			self.body:applyTorque(1000)
+		else
+			self.jumpcd = self.jumpcd - dt
 		end
 
 		local angle = self.pilotBody:getAngle()
