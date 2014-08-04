@@ -88,16 +88,6 @@ function testst:create_player(p, x, y)
 	object.pilotFixture = love.physics.newFixture(object.pilotBody, object.shape)
 	object.pilotFixture:setFriction(0.01)
 
-	object.spear = { objtype = "spear", parent = object }
-
-	object.spearBody = love.physics.newBody(level.world, x + 48, y, "dynamic")
-	object.spearImage = love.graphics.newImage("data/images/item-spear-long.png")
-	object.spearShape = love.physics.newRectangleShape(0, 0, object.spearImage:getWidth(), object.spearImage:getHeight())
-	object.spearFixture = love.physics.newFixture(object.spearBody, object.spearShape)
-	object.spearFixture:setGroupIndex(-p)
-	object.spearFixture:setMask(2)
-	object.spearFixture:setUserData(object.spear)
-	object.spearJoint = love.physics.newWeldJoint(object.pilotBody, object.spearBody, x, y, false)
 	object.joint = love.physics.newRevoluteJoint(object.body, object.pilotBody, x, y, false)
 	object.jumpcd = 0
 
@@ -146,8 +136,6 @@ function testst:create_player(p, x, y)
 			b.bikeImage:getWidth()/2, b.bikeImage:getHeight()/2)
 		love.graphics.draw(b.pilotImage, b.body:getX(), b.body:getY(), b.pilotBody:getAngle(), 1, 1,
 			b.pilotImage:getWidth()/2, b.pilotImage:getHeight()/2)
-		love.graphics.draw(b.spearImage, b.spearBody:getX(), b.spearBody:getY(), b.spearBody:getAngle(), 1, 1,
-			b.spearImage:getWidth()/2, b.spearImage:getHeight()/2)--
 	end
 
 	function object:setPowerup(id)
