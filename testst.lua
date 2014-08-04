@@ -69,10 +69,10 @@ function testst:create_player(p, x, y)
 	local object = { objtype = "player", invincibility_timer = 0, score = 0 }
 	if p == 1 then
 		object.keys = { left = 'left', right = 'right', up = 'up' }
-		object.spr_name = "data/images/chuchu-bike-1.png"
+		object.spr_name = "data/images/wheel.png"
 	else
 		object.keys = { left = 'a', right = 's', up = 'w' }
-		object.spr_name = "data/images/chuchu-bike-2.png"
+		object.spr_name = "data/images/wheel.png"
 	end
 	object.body = love.physics.newBody(level.world, x, y, "dynamic")
 	object.shape = love.physics.newCircleShape(32)
@@ -84,12 +84,13 @@ function testst:create_player(p, x, y)
 	
 	object.pilotBody = love.physics.newBody(level.world, x, y, "dynamic")
 	object.pilotBody:setAngularDamping(7.5)
-	object.pilotImage = love.graphics.newImage("data/images/chuchu-pilot.png")
+	object.pilotImage = love.graphics.newImage("data/images/biker.png")
 	object.pilotFixture = love.physics.newFixture(object.pilotBody, object.shape)
 	object.pilotFixture:setFriction(0.01)
 
 	object.joint = love.physics.newRevoluteJoint(object.body, object.pilotBody, x, y, false)
 	object.jumpcd = 0
+	self.spr_scale = 1
 
 	function object:update(dt)
 		if love.keyboard.isDown(self.keys.left) then
@@ -110,7 +111,9 @@ function testst:create_player(p, x, y)
 		local angle = self.pilotBody:getAngle()
 		local velx, vely = self.pilotBody:getLinearVelocity()
 		if velx < 0 then
-			angle = angle - math.pi
+			self.spr_scale = -1
+		else
+			self.spr_scale = 1
 		end
 
 		if angle > math.rad(0.5) then
@@ -134,7 +137,7 @@ function testst:create_player(p, x, y)
 		local b = object
 		love.graphics.draw(b.bikeImage, b.body:getX(), b.body:getY(), b.body:getAngle(), 1, 1,
 			b.bikeImage:getWidth()/2, b.bikeImage:getHeight()/2)
-		love.graphics.draw(b.pilotImage, b.body:getX(), b.body:getY(), b.pilotBody:getAngle(), 1, 1,
+		love.graphics.draw(b.pilotImage, b.body:getX(), b.body:getY(), b.pilotBody:getAngle(), self.spr_scale, 1,
 			b.pilotImage:getWidth()/2, b.pilotImage:getHeight()/2)
 	end
 
