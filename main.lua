@@ -1,6 +1,5 @@
 local gamestate = require "hump.gamestate"
 local gamest = require "gamest"
-local testst = require "testst"
 
 function table.contains(t, val)
 	for _, v in ipairs(t) do
@@ -16,6 +15,6 @@ end
 
 function love.load()
 	gamestate.registerEvents()
-	gamestate.switch(testst)
+	gamestate.switch(gamest)
 end
 
