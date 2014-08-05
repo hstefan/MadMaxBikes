@@ -73,7 +73,7 @@ function testst:create_player(p, x, y)
 		object.spr_name = "data/images/wheel.png"
 		object.color = { 255, 127, 127 }
 	else
-		object.keys = { left = 'a', right = 's', up = 'w' }
+		object.keys = { left = 'a', right = 'd', up = 'w' }
 		object.spr_name = "data/images/wheel.png"
 		object.color = { 127, 127, 255 }
 	end
