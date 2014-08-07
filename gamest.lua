@@ -6,7 +6,7 @@ require 'util.console'
 
 local gamest = {}
 
-local conf = { fuel_time = 90, fuel_restore = 10, bomb_damage = 15 }
+local conf = { fuel_time = 120, fuel_restore = 20, bomb_damage = 15 }
 
 local win_w, win_h = love.graphics.getDimensions()
 local time_limit = 240
