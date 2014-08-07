@@ -1,7 +1,7 @@
 local level = require 'level'
 local mod = {}
 
-local tspawn = 12 --time to create new powerup
+local tspawn = 8 --time to create new powerup
 local tacc = 0
 local ids = { 'fuel', 'bomb' }
 local spawnedPowerups = { }
