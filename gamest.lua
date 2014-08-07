@@ -6,6 +6,8 @@ require 'util.console'
 
 local gamest = {}
 
+local conf = { fuel_time = 90, fuel_restore = 10, bomb_damage = 15 }
+
 local win_w, win_h = love.graphics.getDimensions()
 local time_limit = 240
 
@@ -69,11 +71,11 @@ end
 function gamest:create_player(p, x, y)
 	local object = { objtype = "player", invincibility_timer = 0, score = 0 }
 	if p == 1 then
-		object.keys = { left = 'left', right = 'right', up = 'up' }
+		object.keys = { left = 'left', right = 'right', up = 'up', bomb = 'down' }
 		object.spr_name = "data/images/wheel.png"
 		object.color = { 255, 127, 127 }
 	else
-		object.keys = { left = 'a', right = 'd', up = 'w' }
+		object.keys = { left = 'a', right = 'd', up = 'w', bomb = 'r' }
 		object.spr_name = "data/images/wheel.png"
 		object.color = { 127, 127, 255 }
 	end
@@ -93,6 +95,7 @@ function gamest:create_player(p, x, y)
 
 	object.joint = love.physics.newRevoluteJoint(object.body, object.pilotBody, x, y, false)
 	object.jumpcd = 0
+	object.fuel = conf.fuel_time
 	self.spr_scale = 1
 
 	function object:update(dt)
@@ -111,9 +114,14 @@ function gamest:create_player(p, x, y)
 			self.jumpcd = self.jumpcd - dt
 		end
 
+		if love.keyboard.isDown(self.keys.bomb) and self.powerup == 'bomb' then
+			powerup:create_bomb(self.body:getX(), self.body:getY())
+			self.powerup = nil
+		end
+
 		local angle = self.pilotBody:getAngle()
 		local velx, vely = self.pilotBody:getLinearVelocity()
-		if velx < 0 then
+		if velx < 0.5 then
 			self.spr_scale = -1
 		else
 			self.spr_scale = 1
@@ -129,6 +137,7 @@ function gamest:create_player(p, x, y)
 		if self.invincibility_timer > 0 then
 			self.invincibility_timer = math.max(0, self.invincibility_timer - dt)
 		end
+		self.fuel = self.fuel - dt
 	end
 
 	function object:draw()
@@ -146,17 +155,23 @@ function gamest:create_player(p, x, y)
 
 	function object:setPowerup(id)
 		self.powerup = id
-		self.score = self.score + 1
+
+		if self.powerup == 'fuel' then
+			self.fuel = self.fuel + conf.fuel_restore
+		end
 	end
 
 	function object:contact(o, coll)
 		local od = o:getUserData()
 		if od ~= nil and od.objtype == 'spear' then
 			if self.invincibility_timer <= 0 and od.parent.invincibility_timer <= 0 then
-				console:log("P" .. p .. " says: AI MEU RIM")
 				self.invincibility_timer = 3
 			end
 		end
+	end
+
+	function object:bomb_damage()
+		self.fuel = self.fuel - conf.bomb_damage
 	end
 
 	object.fixture:setUserData(object)
@@ -246,17 +261,21 @@ function gamest:draw()
 	love.graphics.origin()
 	love.graphics.setColor(255, 255, 255)
 	love.graphics.setFont(self.font)
-	if self.remaining_time > 0 then
-		love.graphics.print("P1 Score: " .. self.p1.score, 8, 8, 0, 1, 1)
-		love.graphics.print("P2 Score: " .. self.p2.score, 8, 34, 0, 1, 1)
-		local remaining_minutes = math.floor(self.remaining_time / 60)
-		local remaining_seconds = math.floor(self.remaining_time % 60)
-		love.graphics.print("Time Left: " .. remaining_minutes .. ":" .. remaining_seconds, 8, 60, 0, 1, 1)
+	if self.p1.fuel > 0 and self.p2.fuel > 0 then
+		love.graphics.print("P1 Fuel: " .. math.ceil(self.p1.fuel), 8, 8, 0, 1, 1)
+		love.graphics.print("P2 Fuel: " .. math.ceil(self.p2.fuel), 8, 34, 0, 1, 1)
 	else
 		local font = love.graphics:getFont()
 		local x, y = center_text(font, "GAME_OVER", 1, win_w/2, win_h/2)
 		love.graphics.print("GAME OVER", x, y, 0, 1, 1)
-		local str = "P1 " .. self.p1.score .. " x " .. self.p2.score .. " P2"
+		local str = nil
+		if self.p1.fuel > self.p2.fuel then
+			str = "Player Two Out of Fuel, Player One Wins!"
+		elseif self.p2.fuel > self.p2.fuel then
+			str = "Player One Out of Fuel, Player Two  Wins!"
+		else
+			str = "Both Players Out of Fuel! Draw!"
+		end
 		local x, y = center_text(font, str, 1, win_w/2, win_h/2 + 48)
 		love.graphics.print(str, x, y, 0, 1, 1)
 	end

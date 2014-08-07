@@ -3,8 +3,9 @@ local mod = {}
 
 local tspawn = 5 --time to create new powerup
 local tacc = 0
-local ids = { 'shield-passive', 'shield-aggresive', 'spear-long', 'spear-short' }
+local ids = { 'fuel', 'bomb' }
 local spawnedPowerups = { }
+local bombs = {}
 
 function mod:get_powerup_spawn()
 	--[[
@@ -106,12 +107,61 @@ function mod:update(dt)
 	for _, v in ipairs(spawnedPowerups) do
 		v:update(dt)
 	end
+	for _, v in ipairs(bombs) do
+		v:update(dt)
+	end
 end
 
 function mod:draw()
 	for _, v in ipairs(spawnedPowerups) do
 		v:draw(dt)
 	end
+	for _, v in ipairs(bombs) do
+		v:draw()
+	end
+end
+
+function mod:create_bomb(x, y)
+	local bomb = {}
+	bomb.body = love.physics.newBody(level.world, x, y, "dynamic")
+	bomb.image = love.graphics.newImage("data/images/bomb.png")
+	bomb.shape = love.physics.newRectangleShape(32, 16)
+	bomb.fixture = love.physics.newFixture(bomb.body, bomb.shape)
+	bomb.fixture:setFriction(30)
+	bomb.body:setMass(30)
+	bomb.timeAlive = 0
+	
+	function bomb:draw()
+		love.graphics.setColor(255, 255, 255)
+		love.graphics.draw(bomb.image, bomb.body:getX(), bomb.body:getY(), bomb.body:getAngle(),  1, 1,
+			bomb.image:getWidth()/2, bomb.image:getHeight()/2)
+	end
+
+	function bomb:update(dt)
+		self.timeAlive = self.timeAlive + dt
+	end
+
+	function bomb:contact(b, coll)
+		local bd = b:getUserData()
+		if bd ~= nil and bd.objtype == 'player' then
+			if self.timeAlive > 3 then
+				bomb.body:destroy()
+				local l = #bombs
+				if bomb.index > l then
+					bombs[bomb.index] = bombs[l]
+					bombs[l] = nil
+				else
+					bombs[bomb.index] = nil
+				end
+				bd:bomb_damage()
+			end
+		end
+	end
+
+	bomb.fixture:setUserData(bomb)
+	bomb.index = #bombs + 1
+	bombs[bomb.index] = bomb
+	return bomb
 end
 
 return mod
