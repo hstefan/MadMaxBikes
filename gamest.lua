@@ -157,7 +157,7 @@ function gamest:create_player(p, x, y)
 		self.powerup = id
 
 		if self.powerup == 'fuel' then
-			self.fuel = self.fuel + conf.fuel_restore
+			self.fuel = clamp(self.fuel + conf.fuel_restore, 0, conf.fuel_time)
 		end
 	end
 
@@ -262,8 +262,8 @@ function gamest:draw()
 	love.graphics.setColor(255, 255, 255)
 	love.graphics.setFont(self.font)
 	if self.p1.fuel > 0 and self.p2.fuel > 0 then
-		love.graphics.print("P1 Fuel: " .. math.ceil(self.p1.fuel), 8, 8, 0, 1, 1)
-		love.graphics.print("P2 Fuel: " .. math.ceil(self.p2.fuel), 8, 34, 0, 1, 1)
+		love.graphics.print("P1 Fuel: " .. math.ceil(100 * self.p1.fuel/conf.fuel_time) .. "%", 8, 8, 0, 1, 1)
+		love.graphics.print("P2 Fuel: " .. math.ceil(100 * self.p2.fuel/conf.fuel_time) .. "%", 8, 34, 0, 1, 1)
 	else
 		local font = love.graphics:getFont()
 		local x, y = center_text(font, "GAME_OVER", 1, win_w/2, win_h/2)
@@ -289,9 +289,9 @@ end
 
 function gamest:update(dt)
 	local elapsed_time = love.timer.getTime() - self.time_start
-	self.remaining_time = time_limit - elapsed_time
+	self.game_running = self.p1.fuel > 0 and self.p2.fuel > 0
 
-	if self.remaining_time > 0 then
+	if self.game_running then
 		level.world:update(dt)
 		powerup:update(dt)
 		self.p1:update(dt)
