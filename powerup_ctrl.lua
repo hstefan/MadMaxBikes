@@ -1,12 +1,20 @@
 local level = require 'level'
 local mod = {}
 
-local tspawn = 5 --time to create new powerup
+local tspawn = 12 --time to create new powerup
 local tacc = 0
 local ids = { 'fuel', 'bomb' }
 local spawnedPowerups = { }
 local bombs = {}
 
+function shuffled(tab)
+	local n, order, res = #tab, {}, {}
+	for i=1,n do order[i] = { rnd = math.random(), idx = i } end
+	table.sort(order, function(a,b) return a.rnd < b.rnd end)
+	for i=1,n do res[i] = tab[order[i].idx] end
+return res
+
+end
 function mod:get_powerup_spawn()
 	--[[
 	local choices = {}
@@ -17,20 +25,14 @@ function mod:get_powerup_spawn()
 	end
 	--]]
 
-	local choices = level.powerupSpawns
+	local choices = shuffled(level.powerupSpawns)
 
-	if level.initialSpawn ~= nil then
-		local i = level.initialSpawn
-		level.initialSpawn = nil
-		return choices[i]
+	for _, c in ipairs(choices) do
+		if not c.occupied then
+			return c
+		end
 	end
-
-	if table.getn(choices) > 0 then
-		local i = math.random(table.getn(choices))
-		return choices[i]
-	else
-		return nil
-	end
+	return nil
 end
 
 function mod:create_powerup()
@@ -94,16 +96,14 @@ function mod:create_powerup()
 end
 
 function mod:update(dt)
-	--[[
 	tacc = tacc + dt
 	if tacc > tspawn then
 		local powerup = self:create_powerup()
-		tacc = tacc - tspawn
+		tacc = 0
 	end
-	--]]
-	if level.initialSpawn ~= nil then
-		mod:create_powerup()
-	end
+	--if level.initialSpawn ~= nil then
+	--	mod:create_powerup()
+	--end
 	for _, v in ipairs(spawnedPowerups) do
 		v:update(dt)
 	end
