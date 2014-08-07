@@ -75,7 +75,7 @@ function gamest:create_player(p, x, y)
 		object.spr_name = "data/images/wheel.png"
 		object.color = { 255, 127, 127 }
 	else
-		object.keys = { left = 'a', right = 'd', up = 'w', bomb = 'r' }
+		object.keys = { left = 'a', right = 'd', up = 'w', bomb = 's' }
 		object.spr_name = "data/images/wheel.png"
 		object.color = { 127, 127, 255 }
 	end
