@@ -32,20 +32,14 @@
   <object x="1740" y="828">
    <polygon points="0,0 -8,-84 694,-270 898,-466 898,-502 828,-612 746,-812 940,-814 938,-320 810,-234 660,-176"/>
   </object>
-  <object x="1608" y="1572">
-   <polygon points="10,0 16,-24 324,-28 328,-14"/>
-  </object>
-  <object x="696" y="1594">
-   <polygon points="184,-54 462,-52 468,-34 198,-38"/>
-  </object>
  </objectgroup>
  <objectgroup name="PowerUps">
   <object gid="1" x="2456" y="1096"/>
   <object gid="1" x="206" y="1222"/>
   <object gid="1" x="164" y="334"/>
-  <object gid="1" x="1730" y="1514"/>
+  <object gid="1" x="1919.6" y="1695.21"/>
   <object gid="1" x="2500" y="350"/>
-  <object gid="1" x="1008" y="1500"/>
+  <object gid="1" x="999.611" y="1664.43"/>
   <object gid="1" x="1342" y="934"/>
   <object gid="1" x="1400" y="1726">
    <properties>
